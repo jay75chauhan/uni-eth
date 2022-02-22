@@ -5,6 +5,8 @@ import { AiOutlineDown } from 'react-icons/ai'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import uniswapLogo from '../public/Assets/uniswap.png'
 import ethLogo from '../public/Assets/eth.png'
+import useTransaction from '../context/Transaction'
+import { shortenAddress } from '../utils/shortenAddress'
 
 const style = {
   navItem: `px-4 py-2 m-1 flex items-center text-lg font-semibold text-[0.9rem] cursor-pointer rounded-3xl`,
@@ -19,8 +21,8 @@ const style = {
 function Header() {
   const [selectedNav, setSelectedNav] = useState('swap')
   const [userName, setUserName] = useState<string>()
-  // const [connectWallet, currentAccount] = useState()
-  let currentAccount
+  const { connectWallet, currentAccount } = useTransaction()
+
   return (
     <div className="flex w-screen items-center justify-between p-4">
       <div className="flex w-1/4 items-center justify-start">
@@ -74,12 +76,14 @@ function Header() {
           </div>
         </div>
         {currentAccount ? (
-          <div className={`${style.button} p-2`}>
-            <div className={style.buttonTextContainer}>{userName}</div>
+          <div className={`${style.button} p-2 `}>
+            <div className="flex h-full w-full transform items-center justify-center rounded-2xl border border-[#163256] bg-[#172A42] px-2 text-center text-sm font-bold text-[#4F90EA] shadow shadow-sky-600 transition-all duration-300 ease-out hover:scale-105 hover:border-[#234169]">
+              {shortenAddress(currentAccount)}
+            </div>
           </div>
         ) : (
           <div
-            // onClick={() => connectWallet()}
+            onClick={() => connectWallet()}
             className={`mx-2 flex-shrink-0 cursor-pointer px-2`}
           >
             <div className="flex h-full w-full transform items-center justify-center rounded-2xl border border-[#163256] bg-[#172A42] p-2 text-center text-sm font-bold text-[#4F90EA] shadow shadow-sky-600 transition-all duration-300 ease-out hover:scale-105 hover:border-[#234169]">
